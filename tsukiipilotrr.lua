@@ -18,7 +18,7 @@ local function WebhookUpdate(playerName, playerLevel, emeralds, gold, rerolls, a
 
     local response = request({
         Url = Webhook,
-        Method = "Post",
+        Method = "POST",
         Headers = {
             ["Content-Type"] = "application/json"
         },

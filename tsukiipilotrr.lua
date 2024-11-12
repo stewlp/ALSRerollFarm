@@ -32,7 +32,7 @@ local function WebhookUpdate(playerName, playerLevel, emeralds, gold, rerolls, a
                 ["fields"] = {
                 {
                     ["name"] = "Player Stats",
-                    ["value"] = ""<:emerald:1222174635538387030> " .. emeralds .. "\n<:gold:1266978912781733982> " .. gold .. "\n<:rerolls:1268184053509521419>" .. rerolls .. "\n<:jewel:1265957882453561354> " .. als_jewels,
+                    ["value"] = ""<:emerald:1305845302632386570> " .. emeralds .. "\n<:gold:1305845885099442256> " .. gold .. "\n<:rerolls:1305541972215201812>" .. rerolls .. "\n<:jewel:1305846330920534118> " .. als_jewels,
                     ["inline"] = true
                 },
                 {

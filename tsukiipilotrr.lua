@@ -62,7 +62,7 @@ local function savePlayerStats(playerName, playerLevel, emeralds, gold, rerolls,
    local jsonData = HttpService:GetJSONEncode(playerStats)
    local playerStatsFile = getPlayerStatsFile(playerName)
    if not isfolder(playerStatsFolder) then
-       makefolder(playerStatsFolder) then
+       makefolder(playerStatsFolder)
            makefolder(playerStatsFolder)
        end
        writefile(playerStatsFile, jsonData)

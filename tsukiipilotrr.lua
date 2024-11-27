@@ -1,5 +1,5 @@
 -- RR Farm ALS
-local Httpservice =  game:GetServce(Httpservice)
+local Httpservice =  game:GetService(Httpservice)
 local Webhook = getgenv().Webhook
 local LobbyPlaceID = 12886143095
 local playerStatsFolder = "playerstats"

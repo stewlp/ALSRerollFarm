@@ -1,26 +1,26 @@
 -- RR Farm ALS
-local Httpservice =  game:GetService(HttpService)
+local HttpService = game:GetService("HttpService")
 local Webhook = getgenv().Webhook
-local LobbyPlaceID = 12886143095
-local playerStatsFolder = "playerstats"
+local LobbyPlaceId = 12886143095
+local playerStatsFolder = "PlayerStats"
 local discorduserid = ""
 local function getPlayerStatsFile(playerName)
-   return playerStatsFolder.."/"..playerName..".PlayerStats.json"
+    return playerStatsFolder.."/"..playerName..".PlayerStats.json"
 end
 local function WebhookUpdate(playerName, playerLevel, emeralds, gold, rerolls, als_jewels, rewards)
+    
+    if getgenv().DiscordId == nil then
+        getid = ""
+    else 
+        getid = getgenv().DiscordId
+        discorduserid = "<@" .. getid .. ">"
+    end
 
-   if getgenv().DiscordId == nil then
-       getid = ""
-   else
-       getid = getgenv().DiscordId
-       discorduserid = "<@" .. getid .. ">"
-   end
-
-   local response = request({
-       Url = Webhook,
-       Method = "POST",
-       Headers = {
-           ["Content-Type"] = "application/json"
+    local response = request({
+        Url = Webhook,
+        Method = "POST",
+        Headers = {
+            ["Content-Type"] = "application/json"
        },
        Body = HttpService:JSONEncode({
            ["content"] = discorduserid,
@@ -50,51 +50,50 @@ local function WebhookUpdate(playerName, playerLevel, emeralds, gold, rerolls, a
    })
 end
 local function savePlayerStats(playerName, playerLevel, emeralds, gold, rerolls, als_jewels, rewards)
-   local PlayerStats = {
-       playerName = playerName,
-       playerLevel = playerLevel,
-       emeralds = emeralds,
-       gold = gold,
-       rerolls = rerolls,
-       als_jewels = als_jewels,
-       rewards = rewards
-   }
-   local jsonData = HttpService:GetJSONEncode(playerStats)
-   local playerStatsFile = getPlayerStatsFile(playerName)
-   if not isfolder(playerStatsFolder) then
-       makefolder(playerStatsFolder)
-           makefolder(playerStatsFolder)
-       end
-       writefile(playerStatsFile, jsonData)
-   end
-   local function loadPLayerStatsData(playerName)
-       local playerStatsFile = getPlayerStatsFile(playerName)
-       if isfile(playerStatsFile) then
-           local jsonData = readfile(playerStatsFile)
-           local playerStats = HttpService:JSONEncode(jsonData)
-           return playerStats
-       else
+    local playerStats = {
+        playerName = playerName,
+        playerLevel = playerLevel,
+        emeralds = emeralds,
+        gold = gold,
+        rerolls = rerolls,
+        als_jewels = als_jewels,
+        rewards = rewards
+    }
+    local jsonData = HttpService:JSONEncode(playerStats)
+    local playerStatsFile = getPlayerStatsFile(playerName)
+    if not isfolder(playerStatsFolder) then
+        makefolder(playerStatsFolder)
+    end
+    writefile(playerStatsFile, jsonData)
+end
+local function loadPlayerStats(playerName)
+    local playerStatsFile = getPlayerStatsFile(playerName)
+    if isfile(playerStatsFile) then
+        local jsonData = readfile(playerStatsFile)
+        local playerStats = HttpService:JSONDecode(jsonData)
+        return playerStats
+    else
            return {
                playerName = playerName,
-               playerLevel = playerLevel,
-               emeralds = emeralds,
-               gold = gold,
-               rerolls = rerolls,
-               als_jewels = als_jewels,
+               playerLevel = 0,
+               emeralds = 0,
+               gold = 0,
+               rerolls = 1,
+               als_jewels = 0,
                rewards = "<:rerolls:1305541972215201812> +2 "
            }
        end
    end
-   local function UpdatePlayerStats()
-       local player = game.Players.LocalPlayer
-       local playerName = Player.DisplayName
-       local playerLevel = Player.Level.Value
-       local emeralds = player.Emeralds.Value
-       local gold = player.Gold.Value
-       local rerolls = player.Rerolls.Value
-       local als_jewels = player.Jewels.Value
-       local rewards = ""
-   savePlayerStats(playerName, playerLevel, emeralds, gold, rerolls, als_jewels, rewards)
+local function UpdatePlayerStats()
+    local player = game.Players.LocalPlayer
+    local playerName = player.DisplayName
+    local playerLevel = player.Level.Value
+    local emeralds = player.Emeralds.Value
+    local gold = player.Gold.Value
+    local rerolls = player.Rerolls.Value
+    local als_jewels = player.Jewels.Value
+    local rewards = ""
+    savePlayerStats(playerName, playerLevel, emeralds, gold, rerolls, als_jewels, rewards)
 end
 local function JoinINFCastle()
     while game.PlaceId == 12886143095 do
@@ -126,9 +125,9 @@ local function UpdateInGameStats()
     local player = game.Players.LocalPlayer
     local playerName = player.DisplayName
     local playerStats = loadPlayerStats(playerName)
-   local rerolls = playerStats.rerolls + 2
-   local rewards = "<:rerolls:1305541972215201812> +2 "
-   savePlayerStats(playerName, playerStats.playerLevel, playerStats.emeralds, playerStats.gold, rerolls, playerStats.als_jewels, rewards)
+    local rerolls = playerStats.rerolls + 2
+    local rewards = "<:rerolls:1268184053509521419> +2 Reroll"
+    savePlayerStats(playerName, playerStats.playerLevel, playerStats.emeralds, playerStats.gold, rerolls, playerStats.als_jewels, rewards)
     WebhookUpdate(playerName, playerStats.playerLevel, playerStats.emeralds, playerStats.gold, rerolls, playerStats.als_jewels, rewards)
 end
 local function SpawnUnit1()

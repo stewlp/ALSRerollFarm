@@ -176,8 +176,22 @@ local function SpawnUnit1()
     until GameEnded()
     
     if GameEnded() then
-        UpdateInGameStats()
-        game:GetService("TeleportService"):Teleport(12886143095)
+        local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local function activateRetryButton()
+    local EndGameUI = player.PlayerGui:WaitForChild("EndGameUI", math.huge)
+    local RetryButton = EndGameUI.BG.Buttons.Retry
+    if RetryButton then
+        RetryButton.Visible = true
+        RetryButton.Active = true
+        print("Retry button is now visible and active")
+        return true
+    else
+        print("Retry button not found")
+    end
+    return false
+end
+activateRetryButton()
     end
 end
 if game.PlaceId == LobbyPlaceId then
